@@ -95,17 +95,18 @@ type UpdateTaskBody = {
   title: string;
   description?: string;
   isChecked?: boolean;
+  _id: string;
 };
 
 export const updateTask: RequestHandler = async (req, res, next) => {
   // your code here
   const errors = validationResult(req);
-  const { title, description, isChecked } = req.body as UpdateTaskBody;
+  const { title, description, isChecked, _id } = req.body as UpdateTaskBody;
   try {
     // your code here
     validationErrorParser(errors);
 
-    if (req.params.id != req.body._id) {
+    if (req.params.id !== _id) {
       res.status(400);
       return;
     }

@@ -1,6 +1,7 @@
-import { RequestHandler } from "express";
-import TaskModel from "src/models/task";
 import createHttpError from "http-errors";
+import TaskModel from "src/models/task";
+
+import type { RequestHandler } from "express";
 
 export const getAllTasks: RequestHandler = async (req, res, next) => {
   try {

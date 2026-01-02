@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import { updateTask, type Task } from "src/api/tasks";
+import { type Task, updateTask } from "src/api/tasks";
 import { CheckButton } from "src/components";
 import styles from "src/components/TaskItem.module.css";
-import { Dialog } from "@tritonse/tse-constellation";
 
 
-export interface TaskItemProps {
+export type TaskItemProps = {
   task: Task;
 }
 
@@ -40,7 +39,7 @@ export function TaskItem({ task: initialTask }: TaskItemProps) {
       </label>
       <div
         className={
-          task.isChecked ? styles.textContainer + " " + styles.checked : styles.textContainer
+          task.isChecked ? `${styles.textContainer} ${styles.checked}` : styles.textContainer
         }
       >
         <span className={styles.title}>{task.title}</span>

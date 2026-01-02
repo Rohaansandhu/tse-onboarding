@@ -5,7 +5,7 @@ export { CheckButton } from "./CheckButton";
 export { HeaderBar } from "./HeaderBar";
 export { Page } from "./Page";
 export { TaskForm } from "./TaskForm";
-export { TextField } from "./TextField";
 export { TaskItem } from "./TaskItem";
 export { TaskList } from "./TaskList";
+export { TextField } from "./TextField";
 
