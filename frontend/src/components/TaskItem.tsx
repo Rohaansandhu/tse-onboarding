@@ -3,10 +3,9 @@ import { type Task, updateTask } from "src/api/tasks";
 import { CheckButton } from "src/components";
 import styles from "src/components/TaskItem.module.css";
 
-
 export type TaskItemProps = {
   task: Task;
-}
+};
 
 export function TaskItem({ task: initialTask }: TaskItemProps) {
   const [task, setTask] = useState<Task>(initialTask);
@@ -19,7 +18,8 @@ export function TaskItem({ task: initialTask }: TaskItemProps) {
     updateTask({
       ...task,
       isChecked: !task.isChecked,
-    }).then((result) => {
+    })
+      .then((result) => {
         if (result.success) {
           setTask(result.data);
         } else {
@@ -35,7 +35,7 @@ export function TaskItem({ task: initialTask }: TaskItemProps) {
   return (
     <div className={styles.item}>
       <label>
-        <CheckButton checked={task.isChecked} disabled={isLoading} onPress={handleToggleCheck}/>
+        <CheckButton checked={task.isChecked} disabled={isLoading} onPress={handleToggleCheck} />
       </label>
       <div
         className={

@@ -6,7 +6,7 @@ import styles from "src/components/TaskList.module.css";
 
 export type TaskListProps = {
   title: string;
-}
+};
 
 export function TaskList({ title }: TaskListProps) {
   const [tasks, setTasks] = useState<Task[]>([]);
