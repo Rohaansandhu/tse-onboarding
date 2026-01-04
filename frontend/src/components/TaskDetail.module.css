@@ -1,0 +1,63 @@
+.container {
+  max-width: 60rem;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.backLink {
+  display: inline-block;
+  margin-bottom: 2rem;
+  font: var(--font-body);
+  text-decoration: underline;
+}
+
+.backLink:hover {
+  color: var(--color-text-secondary);
+}
+
+.headerRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.title {
+  font: var(--font-title);
+  margin: 0;
+}
+
+.description {
+  font: var(--font-body);
+  color: var(--color-text-primary);
+  margin: 0 0 3rem 0;
+  line-height: 1.5;
+}
+
+.metaGrid {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1.5rem 2rem;
+  align-items: center;
+}
+
+.metaLabel {
+  font: var(--font-label);
+  color: var(--color-text-primary);
+}
+
+.metaValue {
+  font: var(--font-body);
+  color: var(--color-text-primary);
+}
+
+.loading {
+  text-align: center;
+  font: var(--font-body);
+  padding: 2rem;
+}
+
+.errorModalText {
+  margin: 0;
+}
