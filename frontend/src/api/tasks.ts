@@ -1,7 +1,7 @@
 import { get, handleAPIError, post, put } from "src/api/requests";
-
 import type { APIResult } from "src/api/requests";
-import { User } from "./users";
+
+import type { User } from "./users";
 
 /**
  * Defines the "shape" of a Task object (what fields are present and their types) for

@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+
 import { Dialog } from "@tritonse/tse-constellation";
+
+import { Link, useParams } from "react-router-dom";
 
 import { getTask, type Task } from "src/api/tasks";
 import { Button, Page, TaskForm, UserTag } from "src/components";
+
 import styles from "./TaskDetail.module.css";
 
 export function TaskDetailItem() {
@@ -53,48 +56,48 @@ export function TaskDetailItem() {
   }
 
   return (
-      <div className={styles.container}>
-        <Link to="/" className={styles.backLink}>
-          Back to home
-        </Link>
+    <div className={styles.container}>
+      <Link to="/" className={styles.backLink}>
+        Back to home
+      </Link>
 
-        {task && !isEditing && (
-          <>
-            <div className={styles.headerRow}>
-              <h1 className={styles.title}>{task.title}</h1>
-              <Button kind="primary" label="Edit task" onClick={handleEditClick} />
-            </div>
+      {task && !isEditing && (
+        <>
+          <div className={styles.headerRow}>
+            <h1 className={styles.title}>{task.title}</h1>
+            <Button kind="primary" label="Edit task" onClick={handleEditClick} />
+          </div>
 
-            {task.description && <p className={styles.description}>{task.description}</p>}
+          {task.description && <p className={styles.description}>{task.description}</p>}
 
-            <div className={styles.metaGrid}>
-              <span className={styles.metaLabel}>Assignee</span>
-              <UserTag user={task.assignee} />
+          <div className={styles.metaGrid}>
+            <span className={styles.metaLabel}>Assignee</span>
+            <UserTag user={task.assignee} />
 
-              <span className={styles.metaLabel}>Status</span>
-              <span className={styles.metaValue}>{task.isChecked ? "Done" : "Not done"}</span>
+            <span className={styles.metaLabel}>Status</span>
+            <span className={styles.metaValue}>{task.isChecked ? "Done" : "Not done"}</span>
 
-              <span className={styles.metaLabel}>Date created</span>
-              <span className={styles.metaValue}>
-                {new Intl.DateTimeFormat("en-US", {
-                  dateStyle: "full",
-                  timeStyle: "short",
-                }).format(new Date(task.dateCreated))}
-              </span>
-            </div>
-          </>
-        )}
+            <span className={styles.metaLabel}>Date created</span>
+            <span className={styles.metaValue}>
+              {new Intl.DateTimeFormat("en-US", {
+                dateStyle: "full",
+                timeStyle: "short",
+              }).format(new Date(task.dateCreated))}
+            </span>
+          </div>
+        </>
+      )}
 
-        {task && isEditing && <TaskForm mode="edit" task={task} onSubmit={handleFormSubmit} />}
+      {task && isEditing && <TaskForm mode="edit" task={task} onSubmit={handleFormSubmit} />}
 
-        <Dialog
-          styleVersion="styled"
-          variant="error"
-          title="An error occurred"
-          content={<p className={styles.errorModalText}>{errorModalMessage}</p>}
-          isOpen={errorModalMessage !== null}
-          onClose={() => setErrorModalMessage(null)}
-        />
-      </div>
+      <Dialog
+        styleVersion="styled"
+        variant="error"
+        title="An error occurred"
+        content={<p className={styles.errorModalText}>{errorModalMessage}</p>}
+        isOpen={errorModalMessage !== null}
+        onClose={() => setErrorModalMessage(null)}
+      />
+    </div>
   );
 }

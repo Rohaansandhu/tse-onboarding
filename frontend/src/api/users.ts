@@ -1,4 +1,5 @@
-import { APIResult, get, handleAPIError } from "./requests";
+import { get, handleAPIError } from "./requests";
+import type { APIResult } from "./requests";
 
 export type User = {
   _id: string;

@@ -36,10 +36,10 @@ export function TaskForm({ mode, task, onSubmit }: TaskFormProps) {
 
     if (mode === "create") {
       // Create mode
-      createTask({ 
-        title, 
+      createTask({
+        title,
         description,
-        assignee: assigneeId || undefined 
+        assignee: assigneeId || undefined,
       })
         .then((result) => {
           if (result.success) {

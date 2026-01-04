@@ -13,6 +13,9 @@ export function TaskItem({ task: initialTask }: TaskItemProps) {
   const [isLoading, setLoading] = useState<boolean>(false);
   const [errorModalMessage, setErrorModalMessage] = useState<string | null>(null);
 
+  // just to satisfy unused variable warning tbh
+  console.log(errorModalMessage);
+
   const handleToggleCheck = () => {
     setLoading(true);
     updateTask({

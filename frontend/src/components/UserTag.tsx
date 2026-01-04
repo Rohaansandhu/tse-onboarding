@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { type User } from "src/api/users";
+import type { User } from "src/api/users";
+
 import styles from "./UserTag.module.css";
 
 export type UserTagProps = {
@@ -21,10 +22,8 @@ export function UserTag({ user, className }: UserTagProps) {
 
   // Determine which profile picture to use
   // Use default if: no URL provided, empty string, or image failed to load
-  const profilePictureSrc = 
-    !user.profilePictureURL || imageError 
-      ? "/userDefault.svg" 
-      : user.profilePictureURL;
+  const profilePictureSrc =
+    !user.profilePictureURL || imageError ? "/userDefault.svg" : user.profilePictureURL;
 
   const handleImageError = () => {
     setImageError(true);
