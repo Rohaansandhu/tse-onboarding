@@ -3,13 +3,14 @@ import { Link, useParams } from "react-router-dom";
 import { Dialog } from "@tritonse/tse-constellation";
 
 import { getTask, type Task } from "src/api/tasks";
-import { Button } from "src/components";
+import { Button, Page, TaskForm, UserTag } from "src/components";
 import styles from "./TaskDetail.module.css";
 
 export function TaskDetailItem() {
   const { id } = useParams<{ id: string }>();
 
   const [task, setTask] = useState<Task | null>(null);
+  const [isEditing, setIsEditing] = useState<boolean>(false);
   const [errorModalMessage, setErrorModalMessage] = useState<string | null>(null);
 
   useEffect(() => {
@@ -19,71 +20,81 @@ export function TaskDetailItem() {
       .then((result) => {
         if (result.success) {
           setTask(result.data);
-          document.title = result.data.title;
+          document.title = `${result.data.title} | TSE Todos`;
         } else {
           setErrorModalMessage(result.error);
+          document.title = "Task Not Found | TSE Todos";
         }
       })
       .catch((err) => {
         setErrorModalMessage(String(err));
+        document.title = "Error | TSE Todos";
       });
   }, [id]);
 
+  const handleEditClick = () => {
+    setIsEditing(true);
+  };
+
+  const handleFormSubmit = (updatedTask: Task) => {
+    setTask(updatedTask);
+    setIsEditing(false);
+    document.title = `${updatedTask.title} | TSE Todos`;
+  };
+
   if (!task && !errorModalMessage) {
-    return <p className={styles.loading}>Loading...</p>;
+    return (
+      <Page>
+        <div className={styles.container}>
+          <p className={styles.loading}>Loading...</p>
+        </div>
+      </Page>
+    );
   }
 
   return (
-    <div className={styles.container}>
-      <Link to="/" className={styles.backLink}>
-        Back to home
-      </Link>
+      <div className={styles.container}>
+        <Link to="/" className={styles.backLink}>
+          Back to home
+        </Link>
 
-      {task && (
-        <>
-          <div className={styles.headerRow}>
-            <h1 className={styles.title}>{task.title}</h1>
-            <Button kind="primary" label="Edit task" />
-          </div>
+        {task && !isEditing && (
+          <>
+            <div className={styles.headerRow}>
+              <h1 className={styles.title}>{task.title}</h1>
+              <Button kind="primary" label="Edit task" onClick={handleEditClick} />
+            </div>
 
-          {task.description && (
-            <p className={styles.description}>{task.description}</p>
-          )}
+            {task.description && <p className={styles.description}>{task.description}</p>}
 
-          <div className={styles.metaGrid}>
-            <span className={styles.metaLabel}>Assignee</span>
-            <span className={styles.metaValue}>
-              {task.assignee?.name ?? "Not Assigned"}
-            </span>
+            <div className={styles.metaGrid}>
+              <span className={styles.metaLabel}>Assignee</span>
+              <UserTag user={task.assignee} />
 
-            <span className={styles.metaLabel}>Status</span>
-            <span className={styles.metaValue}>
-              {task.isChecked ? "Done" : "Not done"}
-            </span>
+              <span className={styles.metaLabel}>Status</span>
+              <span className={styles.metaValue}>{task.isChecked ? "Done" : "Not done"}</span>
 
-            <span className={styles.metaLabel}>Date created</span>
-            <span className={styles.metaValue}>
-              {new Date(task.dateCreated).toLocaleString(undefined, {
-                weekday: "long",
-                month: "long",
-                day: "numeric",
-                year: "numeric",
-                hour: "numeric",
-                minute: "2-digit",
-              })}
-            </span>
-          </div>
-        </>
-      )}
+              <span className={styles.metaLabel}>Date created</span>
+              <span className={styles.metaValue}>
+                {new Intl.DateTimeFormat("en-US", {
+                  dateStyle: "full",
+                  timeStyle: "short",
+                }).format(new Date(task.dateCreated))}
+              </span>
+            </div>
+          </>
+        )}
 
-      <Dialog
-        styleVersion="styled"
-        variant="error"
-        title="An error occurred"
-        content={<p className={styles.errorModalText}>{errorModalMessage}</p>}
-        isOpen={errorModalMessage !== null}
-        onClose={() => setErrorModalMessage(null)}
-      />
-    </div>
+        {task && isEditing && <TaskForm mode="edit" task={task} onSubmit={handleFormSubmit} />}
+
+        <Dialog
+          styleVersion="styled"
+          variant="error"
+          title="An error occurred"
+          content={<p className={styles.errorModalText}>{errorModalMessage}</p>}
+          isOpen={errorModalMessage !== null}
+          onClose={() => setErrorModalMessage(null)}
+        />
+      </div>
   );
 }

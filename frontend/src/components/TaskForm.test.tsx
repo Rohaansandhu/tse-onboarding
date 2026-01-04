@@ -1,10 +1,10 @@
 import "@testing-library/jest-dom/vitest";
 import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
-import { createTask } from "src/api/tasks";
+import { createTask, updateTask } from "src/api/tasks";
 import { TaskForm } from "src/components/TaskForm";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
-import type { CreateTaskRequest, Task } from "src/api/tasks";
+import type { CreateTaskRequest, Task, UpdateTaskRequest } from "src/api/tasks";
 import type { TaskFormProps } from "src/components/TaskForm";
 
 const TITLE_INPUT_ID = "task-title-input";
@@ -13,11 +13,11 @@ const SAVE_BUTTON_ID = "task-save-button";
 
 /**
  * The `vi.mock()` function allows us to replace the exports of another module.
- * In this case, because `TaskForm` calls `createTask()` directly, we can't pass
- * in our mock function as a prop, so we use `vi.mock()` to replace `createTask`
- * from `src/api/tasks` with the mock function. Thus, if `TaskForm` is being
+ * In this case, because `TaskForm` calls `createTask()` and `updateTask()` directly,
+ * we can't pass in our mock functions as props, so we use `vi.mock()` to replace
+ * them from `src/api/tasks` with the mock functions. Thus, if `TaskForm` is being
  * rendered by one of these tests (as opposed to a real browser) and it tries to
- * call `createTask()`, it will run the code that we provide below instead.
+ * call `createTask()` or `updateTask()`, it will run the code that we provide below instead.
  *
  * See https://vitest.dev/guide/mocking.html#modules for more info about mocking
  * modules.
@@ -35,6 +35,11 @@ vi.mock("src/api/tasks", () => ({
    * See https://vitest.dev/guide/mocking#functions for more info about mock functions.
    */
   createTask: vi.fn(async (_params: CreateTaskRequest) => Promise.resolve({ success: true })),
+  /**
+   * Mock function for `updateTask` - similar to `createTask`, but used when
+   * the form is in edit mode.
+   */
+  updateTask: vi.fn(async (_params: UpdateTaskRequest) => Promise.resolve({ success: true })),
 }));
 
 /**
@@ -133,11 +138,18 @@ describe("taskForm", () => {
     });
     const saveButton = screen.getByTestId(SAVE_BUTTON_ID);
     fireEvent.click(saveButton);
-    expect(createTask).toHaveBeenCalledTimes(1);
-    expect(createTask).toHaveBeenCalledWith({
+    // In edit mode, the form should call updateTask instead of createTask
+    expect(updateTask).toHaveBeenCalledTimes(1);
+    expect(updateTask).toHaveBeenCalledWith({
+      _id: mockTask._id,
       title: "Updated title",
       description: "Updated description",
+      isChecked: mockTask.isChecked,
+      dateCreated: mockTask.dateCreated,
+      assignee: mockTask.assignee,
     });
+    // createTask should not be called in edit mode
+    expect(createTask).not.toHaveBeenCalled();
     await waitFor(() => {
       // If the test ends before all state updates and rerenders occur, we'll
       // get a warning about updates not being wrapped in an `act(...)`

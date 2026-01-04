@@ -74,7 +74,7 @@ export type UpdateTaskRequest = {
   description?: string;
   isChecked: boolean;
   dateCreated: Date;
-  assignee?: User;
+  assignee?: string; // Changed from User to string (the ID)
 };
 
 /**
@@ -114,7 +114,6 @@ export async function getAllTasks(): Promise<APIResult<Task[]>> {
 
 export async function updateTask(task: UpdateTaskRequest): Promise<APIResult<Task>> {
   try {
-    // your code here
     const response = await put(`/api/task/${task._id}`, task);
     const json = (await response.json()) as TaskJSON;
     return { success: true, data: parseTask(json) };

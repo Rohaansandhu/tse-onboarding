@@ -9,3 +9,4 @@ export { TaskItem } from "./TaskItem";
 export { TaskList } from "./TaskList";
 export { TextField } from "./TextField";
 export { TaskDetailItem } from "./TaskDetail";
+export { UserTag } from "./UserTag";

@@ -17,13 +17,24 @@
   border-bottom: 1px solid var(--color-text-secondary);
   flex-grow: 1;
   display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  overflow: hidden;
+  gap: 1rem;
+}
+
+.textContent {
+  flex-grow: 1;
+  display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: stretch;
   overflow: hidden;
+  min-width: 0;
 }
 
-.textContainer span {
+.textContent span {
   width: 100%;
   white-space: nowrap;
   overflow: hidden;
@@ -52,4 +63,24 @@
 
 .checked {
   color: var(--color-text-secondary);
+}
+
+.userTag {
+  width: 12rem;
+  flex-shrink: 0;
+}
+
+.itemContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.container {
+  margin-top: 3rem;
+}
+
+.errorModalText {
+  color: var(--color-tse-navy-blue);
 }
