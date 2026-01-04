@@ -74,7 +74,7 @@ export type UpdateTaskRequest = {
   description?: string;
   isChecked: boolean;
   dateCreated: Date;
-  assignee?: string;
+  assignee?: User;
 };
 
 /**

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { type Task, updateTask } from "src/api/tasks";
 import { CheckButton } from "src/components";
 import styles from "src/components/TaskItem.module.css";
@@ -13,7 +14,6 @@ export function TaskItem({ task: initialTask }: TaskItemProps) {
   const [errorModalMessage, setErrorModalMessage] = useState<string | null>(null);
 
   const handleToggleCheck = () => {
-    // your code here
     setLoading(true);
     updateTask({
       ...task,
@@ -42,7 +42,9 @@ export function TaskItem({ task: initialTask }: TaskItemProps) {
           task.isChecked ? `${styles.textContainer} ${styles.checked}` : styles.textContainer
         }
       >
-        <span className={styles.title}>{task.title}</span>
+        <Link to={`/task/${task._id}`} className={styles.titleLink}>
+          <span className={styles.title}>{task.title}</span>
+        </Link>
         {task.description && <span className={styles.description}>{task.description}</span>}
       </div>
     </div>
