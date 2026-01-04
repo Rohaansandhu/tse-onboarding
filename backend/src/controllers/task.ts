@@ -78,7 +78,7 @@ type UpdateTaskBody = {
 export const updateTask: RequestHandler = async (req, res, next) => {
   const errors = validationResult(req);
   const { title, description, isChecked, assignee, _id } = req.body as UpdateTaskBody;
-  
+
   try {
     validationErrorParser(errors);
 
@@ -95,7 +95,7 @@ export const updateTask: RequestHandler = async (req, res, next) => {
         isChecked,
         assignee: assignee || undefined,
       },
-      { new: true } // Return the updated document
+      { new: true }, // Return the updated document
     ).populate("assignee");
 
     if (task === null) {

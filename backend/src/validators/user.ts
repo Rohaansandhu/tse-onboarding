@@ -4,13 +4,6 @@ import { body } from "express-validator";
 // https://express-validator.github.io/docs/guides/validation-chain
 // https://github.com/validatorjs/validator.js#validators
 
-const makeIDValidator = () =>
-  body("_id")
-    .exists()
-    .withMessage("_id is required")
-    .bail()
-    .isMongoId()
-    .withMessage("_id must be a MongoDB object ID");
 const makeNameValidator = () =>
   body("name")
     // title must exist, if not this message will be displayed
